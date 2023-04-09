@@ -2,42 +2,42 @@
 
 1. Install Spacy and Flask libraries: You can install both libraries using pip. Open your terminal or command prompt and type
 
-pip install spacy
-pip install flask
+    pip install spacy
+    pip install flask
 
 2. Download the Spacy model: Spacy provides various language models, including English, German, French, etc. For this task, we'll use the English language model. Download it using the following command:
 
-python -m spacy download en_core_web_sm
+    python -m spacy download en_core_web_sm
 
 
 3. Create a Flask app: Open your code editor and create a new file called app.py. Import Flask and create a new app object.
 
-from flask import Flask
-app = Flask(__name__)
+    from flask import Flask
+    app = Flask(__name__)
 
 
 4. Create a function to summarize text using Spacy: We'll use the en_core_web_sm model to extract the most important sentences from the README file. Here's an example function that you can use:
 
-import spacy
+    import spacy
 
-def summarize(text):
-    nlp = spacy.load("en_core_web_sm")
-    doc = nlp(text)
-    sentences = [sent.text.strip() for sent in doc.sents]
-    keywords = list(doc.noun_chunks)
-    summary = " ".join(sentences[:2])
-    return summary
+    def summarize(text):
+        nlp = spacy.load("en_core_web_sm")
+        doc = nlp(text)
+        sentences = [sent.text.strip() for sent in doc.sents]
+        keywords = list(doc.noun_chunks)
+        summary = " ".join(sentences[:2])
+        return summary
 
 This function loads the Spacy model, extracts the sentences from the text, and concatenates the first two sentences as the summary.
 
 5. Create a Flask route to summarize the README file: Add a new route to your Flask app that accepts a GET request and summarizes the README file. Here's an example route:
 
-@app.route('/summarize')
-def get_summary():
-    with open('README.md', 'r') as f:
-        text = f.read()
-    summary = summarize(text)
-    return summary
+    @app.route('/summarize')
+    def get_summary():
+        with open('README.md', 'r') as f:
+            text = f.read()
+        summary = summarize(text)
+        return summary
 
 6. Test the app: Open your browser and navigate to http://localhost:5000/summarize. If everything is working correctly, you should see the summary of your README file displayed in the browser.
 
